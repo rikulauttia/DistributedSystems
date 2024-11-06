@@ -59,3 +59,14 @@ public class App3 {
         System.out.printf("Total time for grading: %d ms%n", System.currentTimeMillis()-startTime);
     }
 }
+
+//Kun vertailen suoritusaikaa alkuperäiseen yksisäikeiseen toteutukseen - ajat lienevät melko lailla
+// samoissa kokoluokissa. Miksi näin on? Säikeistyksen yksi päätarkoituksistahan oli rinnakkaisuuden
+// avulla parantaa suoritusaikoja?
+
+//Säikeiden hallinnasta aiheutuva ylikuorma
+// (Jokaisen säikeen luominen, hallinta ja synkronointi aiheuttaa lisätyötä järjestelmälle.
+// Jokainen säie tarvitsee muistia ja hallintaa, ja säikeiden hallinta
+// (esim. säikeiden käynnistys ja niiden tulosten yhdistäminen) kuluttaa prosessorin resursseja.
+//Säikeistämisestä syntyy siis eräänlaista ylikuormaa, joka voi kumota siitä saatavat hyödyt,
+// erityisesti silloin, kun tehtävä ei ole riittävän "raskas" tai laskennallisesti intensiivinen.)
