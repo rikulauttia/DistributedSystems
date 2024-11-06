@@ -37,22 +37,26 @@ public class App6 {
         int taskCount = 10;
         List<GradingTask> tasks = TaskAllocator.allocate(ungradedSubmissions, taskCount);
 
-        // Luodaam lista säikeitä ja käynnistetään ne
-        List<Thread> threads = new ArrayList<>();
+        // Luodaan "säiepooli", jossa on neljä säiettä. ExecutorService hallitsee näitä
+        // säikeitä automaattisesti, ja ylimääräiset tehtävät odottavat, kunnes joku säikeistä vapautuu.
+        ExecutorService executor = Executors.newFixedThreadPool(4);
+
+        // Lähetetään jokainen GradingTask-olio suoritettavaksi ExecutorServiceen
         for (GradingTask task : tasks) {
-            Thread thread = new Thread(task);
-            threads.add(thread);
-            thread.start();
+            executor.execute(task);
         }
 
-        // Odotetaan säikeiden suorituksien päättymistä
-        for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        // Suljetaan ExecutorService ja odotetaan, että kaikki tehtävät suoritetaan loppuun
+        executor.shutdown();
+        try {
+            // Odotetaan korkeintaan 1 minuuttia, että kaikki tehtävät valmistuvat
+            if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+                System.err.println("Some tasks did not finish in time.");
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
 
         // Tulostetaan arvioidut palautukset
         System.out.println("------------ CUT HERE ------------");
