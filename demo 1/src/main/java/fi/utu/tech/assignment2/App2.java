@@ -22,8 +22,14 @@ public class App2 {
             System.out.println(ug);
         }
 
-        // Luodaan uusi gardintask olio ja annetaan sille arvioimattomat palautukset
+        //  luodaan uusi GradingTask-olio ja sille annetaan arvioimattomat palautukset (eli ungradedSubmissions-lista).
         GradingTask gradingTask = new GradingTask(ungradedSubmissions);
+        // Tässä kutsutaan GradingTask-luokan konstruktoria, joka ottaa vastaan listan Submission-olioita
+        // (eli arvioitavat palautukset). Tämä konstruktori tallentaa annetut palautukset GradingTask-olion
+        // sisäiseen submissions-muuttujaan, jota GradingTask käyttää arvioinnin suorittamiseen run()-metodissa.
+        // Näin run()-metodi voi viitata submissions-muuttujaan suoraan, eikä palautuksia tarvitse välittää run()-metodille parametrina.
+        // Runnable-rajapinnan run()-metodilla ei ole parametreja, joten ainoa tapa välittää arvioitavat palautukset
+        // run()-metodille on tallentaa ne GradingTask-olion sisäiseen muuttujaan (submissions).
 
         // Luodaan uusi säie ja annetaan sille tehtäväksi GradingTaskin suorittaminen
         Thread gradingThread = new Thread(gradingTask);
