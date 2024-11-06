@@ -21,10 +21,22 @@ public class App1 {
             System.out.println(ug);
         }
 
-        // Luodaan uusi arviointitehtävä
-        GradingTask gradingTask = new GradingTask();
+        // Luodaan uusi gardintask olio ja annetaan sille arvioimattomat palautukset
+        GradingTask gradingTask = new GradingTask(ungradedSubmissions);
+        // Luodaan uusi säie ja käynnistetään se
+        Thread gradingThread = new Thread(gradingTask);
+        gradingThread.start();
+        // Odotetaan säikeen suorituksen päättymistä
+        try {
+            gradingThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // Haetaan arvioidut palautukset
+        List<Submission> gradedSubmissions = gradingTask.getGradedSubmissions();
+
         // Annetaan palautukset gradeAll-metodille ja saadaan arvioidut palautukset takaisin
-        List<Submission> gradedSubmissions =  gradingTask.gradeAll(ungradedSubmissions);
+        // List<Submission> gradedSubmissions =  gradingTask.gradeAll(ungradedSubmissions);
         /*
          * TODO: Muokkaa common-pakkauksen GradingTask-luokkaa siten,
          * että alla oleva run()-metodi (ilman argumentteja!) tarkistaa palautukset (ungradedSubmissions).
