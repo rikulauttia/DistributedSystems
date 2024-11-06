@@ -23,15 +23,8 @@ public class App1 {
 
         // Luodaan uusi gardintask olio ja annetaan sille arvioimattomat palautukset
         GradingTask gradingTask = new GradingTask(ungradedSubmissions);
-        // Luodaan uusi säie ja käynnistetään se
-        Thread gradingThread = new Thread(gradingTask);
-        gradingThread.start();
-        // Odotetaan säikeen suorituksen päättymistä
-        try {
-            gradingThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        gradingTask.run();
         // Haetaan arvioidut palautukset
         List<Submission> gradedSubmissions = gradingTask.getGradedSubmissions();
 
