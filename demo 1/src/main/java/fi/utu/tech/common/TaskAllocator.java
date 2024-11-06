@@ -7,7 +7,6 @@ import java.util.List;
  * You need to modify this file
  */
 
-
 public class TaskAllocator {
 
     /**
@@ -40,8 +39,23 @@ public class TaskAllocator {
      * @return List of GradingTasks allocated with some amount of submissions (depends on the implementation)
      */
     public static List<GradingTask> allocate(List<Submission> submissions, int taskCount) {
-        // TODO: Tehtävä 5
-        // Retruns null for now to suppress warnings
-        return null;
+        List<GradingTask> tasks = new ArrayList<>();
+
+        // Alustetaan tyhjät listat kullekin tehtävälle
+        List<List<Submission>> splitSubmissions = new ArrayList<>();
+        for (int i = 0; i < taskCount; i++) {
+            splitSubmissions.add(new ArrayList<>());
+        }
+
+        // jaetaan palautukset eri listojen kesken vuorotellen
+        for (int i = 0; i < submissions.size(); i++) {
+            splitSubmissions.get(i % taskCount).add(submissions.get(i));
+        }
+
+        // Luodaan GradingTask-oliot kullekin listalle ja lisätään ne tasks-listaan
+        for (List<Submission> part : splitSubmissions) {
+            tasks.add(new GradingTask(part));
+        }
+        return tasks;
     }
 }
